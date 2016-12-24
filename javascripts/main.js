@@ -36,17 +36,17 @@
             const denominators = [];
             const numerators   = [];
 
-            const fc = Math.tan((Math.PI * fd) / context.sampleRate) / (2.0 * Math.PI);
+            const fc = Math.tan((Math.PI * fd) / context.sampleRate) / (2 * Math.PI);
 
-            const d = 1.0 + ((2.0 * Math.PI * fc) / Q) + (4.0 * Math.pow(Math.PI, 2) * Math.pow(fc, 2));
+            const d = 1 + ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2));
 
-            denominators[0] = 1.0;
-            denominators[1] = ((8.0 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) - 2.0) / d;
-            denominators[2] = (1.0 - ((2.0 * Math.PI * fc) / Q) + (4.0 * Math.pow(Math.PI, 2) * Math.pow(fc, 2))) / d;
+            denominators[0] = 1;
+            denominators[1] = ((8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) - 2) / d;
+            denominators[2] = (1 - ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2))) / d;
 
-            numerators[0] = (4.0 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
-            numerators[1] = (8.0 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
-            numerators[2] = (4.0 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
+            numerators[0] = (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
+            numerators[1] = (8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
+            numerators[2] = (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
 
             return context.createIIRFilter(numerators, denominators);
         };
