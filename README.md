@@ -1,4 +1,4 @@
-IIRFilterNode-Simulator
+IIRFilterNode
 =========
 
 [Demo](https://korilakkuma.github.io/IIRFilterNode/)
