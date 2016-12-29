@@ -32,22 +32,22 @@
         };
 
         const createLPFilter = (fd, Q) => {
-            const denominators = [];
-            const numerators   = [];
+            const feedforwards = [];
+            const feedbacks    = [];
 
             const fc = Math.tan((Math.PI * fd) / context.sampleRate) / (2 * Math.PI);
 
             const d = 1 + ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2));
 
-            denominators[0] = 1;
-            denominators[1] = ((8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) - 2) / d;
-            denominators[2] = (1 - ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2))) / d;
+            feedforwards[0] = (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
+            feedforwards[1] = (8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
+            feedforwards[2] = (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
 
-            numerators[0] = (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
-            numerators[1] = (8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
-            numerators[2] = (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) / d;
+            feedbacks[0] = 1;
+            feedbacks[1] = ((8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) - 2) / d;
+            feedbacks[2] = (1 - ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2))) / d;
 
-            return context.createIIRFilter(numerators, denominators);
+            return context.createIIRFilter(feedforwards, feedbacks);
         };
 
         document.querySelector('[type="file"]').addEventListener('change', event => {
