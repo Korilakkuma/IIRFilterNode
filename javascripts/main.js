@@ -50,6 +50,25 @@
             return context.createIIRFilter(feedforwards, feedbacks);
         };
 
+        const createHPFilter = (fd, Q) => {
+            const feedforwards = [];
+            const feedbacks    = [];
+
+            const fc = Math.tan((Math.PI * fd) / context.sampleRate) / (2 * Math.PI);
+
+            const d = 1 + ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2));
+
+            feedforwards[0] = 1;
+            feedforwards[1] = -2;
+            feedforwards[2] = 1;
+
+            feedbacks[0] = 1;
+            feedbacks[1] = ((8 * Math.pow(Math.PI, 2) * Math.pow(fc, 2)) - 2) / d;
+            feedbacks[2] = (1 - ((2 * Math.PI * fc) / Q) + (4 * Math.pow(Math.PI, 2) * Math.pow(fc, 2))) / d;
+
+            return context.createIIRFilter(feedforwards, feedbacks);
+        };
+
         document.querySelector('[type="file"]').addEventListener('change', event => {
             const file = event.target.files[0];
 
