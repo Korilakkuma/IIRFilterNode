@@ -4,7 +4,7 @@
         const context = new AudioContext();
 
         let filter    = null;
-        let frequency = document.getElementById('range-cutoff-frequency').valueAsNumber;
+        let frequency = document.getElementById('range-frequency').valueAsNumber;
         let Q         = document.getElementById('range-quality-factor').valueAsNumber;
         let buffer    = null;
         let source    = context.createBufferSource();;
@@ -135,14 +135,14 @@
             document.getElementById('output-playback-rate').textContent = event.currentTarget.value;
         }, false);
 
-        document.getElementById('range-cutoff-frequency').addEventListener('input', event => {
+        document.getElementById('range-frequency').addEventListener('input', event => {
             frequency = event.currentTarget.valueAsNumber;
             filter    = createLPFilter(frequency, Q);
 
             source.disconnect(0);
             source.connect(filter).connect(gain).connect(context.destination);
 
-            document.getElementById('output-cutoff-frequency').textContent = event.currentTarget.value;
+            document.getElementById('output-frequency').textContent = event.currentTarget.value;
         }, false);
 
         document.getElementById('range-quality-factor').addEventListener('input', event => {
