@@ -6,6 +6,7 @@
         let filter    = null;
         let frequency = document.getElementById('range-frequency').valueAsNumber;
         let Q         = document.getElementById('range-quality-factor').valueAsNumber;
+        let g         = document.getElementById('range-filter-gain').valueAsNumber;
         let buffer    = null;
         let source    = context.createBufferSource();;
         let gain      = context.createGain();
@@ -20,7 +21,7 @@
             source.buffer = audioBuffer;
             source.playbackRate.value = playbackRate;
 
-            filter = createLPFilter(frequency, Q);
+            filter = createLPFilter(frequency, Q, g);
 
             source.connect(filter).connect(gain).connect(context.destination);
 
@@ -137,7 +138,7 @@
 
         document.getElementById('range-frequency').addEventListener('input', event => {
             frequency = event.currentTarget.valueAsNumber;
-            filter    = createLPFilter(frequency, Q);
+            filter    = createLPFilter(frequency, Q, g);
 
             source.disconnect(0);
             source.connect(filter).connect(gain).connect(context.destination);
@@ -147,12 +148,22 @@
 
         document.getElementById('range-quality-factor').addEventListener('input', event => {
             Q      = event.currentTarget.valueAsNumber;
-            filter = createLPFilter(frequency, Q);
+            filter = createLPFilter(frequency, Q, g);
 
             source.disconnect(0);
             source.connect(filter).connect(gain).connect(context.destination);
 
             document.getElementById('output-quality-factor').textContent = event.currentTarget.value;
+        }, false);
+
+        document.getElementById('range-filter-gain').addEventListener('input', event => {
+            g      = event.currentTarget.valueAsNumber;
+            filter = createLPFilter(frequency, Q, g);
+
+            source.disconnect(0);
+            source.connect(filter).connect(gain).connect(context.destination);
+
+            document.getElementById('output-filter-gain').textContent = event.currentTarget.value;
         }, false);
 
     }, true);
