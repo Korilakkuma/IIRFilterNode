@@ -21,6 +21,18 @@
                 <dd><input type="range" id="range-gain" value="1" min="0" max="1" step="0.05" /></dd>
                 <dt><label for="range-playback-rate">Playback Rate<span id="output-playback-rate">1</span></label></dt>
                 <dd><input type="range" id="range-playback-rate" value="1" min="0.5" max="2" step="0.05" /></dd>
+                <dt><label for="select-filter-type">Filter Type</label></dt>
+                <dd>
+                    <select id="select-filter-type">
+                        <option value="lowpass" selected>Low-Pass Filter</option>
+                        <option value="highpass">High-Pass Filter</option>
+                        <option value="bandpass">Band-Pass Filter</option>
+                        <option value="lowshelving">Low Shelving Filter</option>
+                        <option value="highshelving">High Shelving Filter</option>
+                        <option value="peaking">Peaking Filter</option>
+                        <option value="notch">Notch Filter</option>
+                    </select>
+                </dd>
                 <dt><label for="range-frequency">Frequency<span id="output-frequency">350</span> Hz</label></dt>
                 <dd><input type="range" id="range-frequency" value="350" min="20" max="22050" step="1" /></dd>
                 <dt><label for="range-quality-factor">Quality Factor<span id="output-quality-factor">1</span></label></dt>

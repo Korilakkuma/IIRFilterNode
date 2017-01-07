@@ -4,6 +4,7 @@
         const context = new AudioContext();
 
         let filter    = null;
+        let type      = document.getElementById('select-filter-type').value;
         let frequency = document.getElementById('range-frequency').valueAsNumber;
         let Q         = document.getElementById('range-quality-factor').valueAsNumber;
         let g         = document.getElementById('range-filter-gain').valueAsNumber;
@@ -21,7 +22,7 @@
             source.buffer = audioBuffer;
             source.playbackRate.value = playbackRate;
 
-            filter = createLPFilter(frequency, Q, g);
+            filter = createFilter(type, frequency, Q, g);
 
             source.connect(filter).connect(gain).connect(context.destination);
 
@@ -165,6 +166,27 @@
             return context.createIIRFilter(feedforwards, feedbacks);
         };
 
+        const createFilter = (type, fd, Q, g) => {
+            switch (type) {
+                case 'lowpass':
+                    return createLPFilter(fd, Q);
+                case 'highpass':
+                    return createHPFilter(fd, Q);
+                case 'bandpass':
+                    return createBPFilter(fd, Q);
+                case 'lowshelving':
+                    return createLowShelvingFilter(fd, Q, g);
+                case 'highshelving':
+                    return createHighShelvingFilter(fd, Q, g);
+                case 'peaking':
+                    return createPeakingFilter(fd, Q, g);
+                case 'notch':
+                    return createNotchFilter(fd, Q);
+                default:
+                    return null;
+            }
+        }
+
         document.querySelector('[type="file"]').addEventListener('change', event => {
             const file = event.target.files[0];
 
@@ -193,9 +215,17 @@
             document.getElementById('output-playback-rate').textContent = event.currentTarget.value;
         }, false);
 
+        document.getElementById('select-filter-type').addEventListener('change', event => {
+            type   = event.currentTarget.value;
+            filter = createFilter(type, frequency, Q, g);
+
+            source.disconnect(0);
+            source.connect(filter).connect(gain).connect(context.destination);
+        }, false);
+
         document.getElementById('range-frequency').addEventListener('input', event => {
             frequency = event.currentTarget.valueAsNumber;
-            filter    = createLPFilter(frequency, Q, g);
+            filter    = createFilter(type, frequency, Q, g);
 
             source.disconnect(0);
             source.connect(filter).connect(gain).connect(context.destination);
@@ -205,7 +235,7 @@
 
         document.getElementById('range-quality-factor').addEventListener('input', event => {
             Q      = event.currentTarget.valueAsNumber;
-            filter = createLPFilter(frequency, Q, g);
+            filter = createFilter(type, frequency, Q, g);
 
             source.disconnect(0);
             source.connect(filter).connect(gain).connect(context.destination);
@@ -215,7 +245,7 @@
 
         document.getElementById('range-filter-gain').addEventListener('input', event => {
             g      = event.currentTarget.valueAsNumber;
-            filter = createLPFilter(frequency, Q, g);
+            filter = createFilter(type, frequency, Q, g);
 
             source.disconnect(0);
             source.connect(filter).connect(gain).connect(context.destination);
